@@ -1518,12 +1518,24 @@
         source:"/p/:id",
         target:"/baidu/tieba/post/lz/:id" },
       { title:"用户帖子",
-        docs:"https://docs.rsshub.app/routes/bbs#tie-ba",
+        docs:"https://docs.rsshub.app/routes/bbs#bai-du-tie-ba",
         source:"/home/main",
         target:(params, url) => {
                     const uid = new URL(url).searchParams.get('un');
                     if (uid) {
                         return `/baidu/tieba/user/${uid}`;
+                    }
+                } },
+      { title:"贴吧搜索",
+        docs:"https://docs.rsshub.app/routes/bbs#bai-du-tie-ba",
+        source:"/f/search/res",
+        target:(params, url) => {
+                    const searchParams = new URL(url).searchParams;
+                    const qw = searchParams.get('qw');
+                    const kw = searchParams.get('kw');
+                    if (qw) {
+                        const route = `/baidu/tieba/user/${qw}`;
+                        return kw ? `${route}/kw=${kw}` : route;
                     }
                 } } ],
     top:[ { title:"热搜榜单",
@@ -3475,6 +3487,19 @@
         source:[ "/p/:id",
           "/" ],
         target:"/douyu/post/:id" } ] },
+  "dribbble.com":{ _name:"Dribbble",
+    ".":[ { title:"Keyword",
+        docs:"https://docs.rsshub.app/routes/design#dribbble",
+        source:[ "/search/shots/recent" ],
+        target:(_, url) => `/dribbble/keyword/${new URL(url).searchParams.get('q')}` },
+      { title:"Popular",
+        docs:"https://docs.rsshub.app/routes/design#dribbble",
+        source:[ "/" ],
+        target:"/dribbble/popular" },
+      { title:"User (or team)",
+        docs:"https://docs.rsshub.app/routes/design#dribbble",
+        source:[ "/:name" ],
+        target:"/dribbble/user/:name" } ] },
   "dtcj.com":{ _name:"DT 财经",
     ".":[ { title:"数据侠专栏",
         docs:"https://docs.rsshub.app/routes/finance#dt-cai-jing",

@@ -2587,8 +2587,13 @@
       },
       {
         "title": "用户帖子",
-        "docs": "https://docs.rsshub.app/routes/bbs#tie-ba",
+        "docs": "https://docs.rsshub.app/routes/bbs#bai-du-tie-ba",
         "source": "/home/main"
+      },
+      {
+        "title": "贴吧搜索",
+        "docs": "https://docs.rsshub.app/routes/bbs#bai-du-tie-ba",
+        "source": "/f/search/res"
       }
     ],
     "top": [
@@ -6536,6 +6541,34 @@
           "/"
         ],
         "target": "/douyu/post/:id"
+      }
+    ]
+  },
+  "dribbble.com": {
+    "_name": "Dribbble",
+    ".": [
+      {
+        "title": "Keyword",
+        "docs": "https://docs.rsshub.app/routes/design#dribbble",
+        "source": [
+          "/search/shots/recent"
+        ]
+      },
+      {
+        "title": "Popular",
+        "docs": "https://docs.rsshub.app/routes/design#dribbble",
+        "source": [
+          "/"
+        ],
+        "target": "/dribbble/popular"
+      },
+      {
+        "title": "User (or team)",
+        "docs": "https://docs.rsshub.app/routes/design#dribbble",
+        "source": [
+          "/:name"
+        ],
+        "target": "/dribbble/user/:name"
       }
     ]
   },
