@@ -59,6 +59,9 @@
     "/2048/:id?": [
         "nczitzk"
     ],
+    "/8264/list/:id?": [
+        "nczitzk"
+    ],
     "/12306/:date/:from/:to/:type?": [
         "Fatpandac"
     ],
@@ -1592,6 +1595,9 @@
     "/dmzj/news/:category?": [
         "vzz64"
     ],
+    "/dn/:language/news/:category?": [
+        "nczitzk"
+    ],
     "/dnaindia/:category": [
         "Rjnishant530"
     ],
@@ -2219,6 +2225,9 @@
     "/github/pull/:user/:repo/:state?": [
         "hashman",
         "TonyRL"
+    ],
+    "/github/pulse/:user/:repo/:period?": [
+        "jameschensmith"
     ],
     "/github/repos/:user": [
         "DIYgod"
@@ -3447,6 +3456,9 @@
     ],
     "/kakuyomu/episode/:id": [
         "huangliangshusheng"
+    ],
+    "/kantarworldpanel/:region/:category?": [
+        "nczitzk"
     ],
     "/kbs/news/:category?/:language?": [
         "nczitzk"
