@@ -1951,6 +1951,9 @@
     "/dorohedoro/news": [
         "nczitzk"
     ],
+    "/douban/:id/discussion": [
+        "nightmare-mio"
+    ],
     "/douban/book/latest": [
         "fengkx"
     ],
@@ -4327,7 +4330,12 @@
     "/linovelib/novel/:id": [
         "misakicoca"
     ],
-    "/liquipedia/dota2/matches/:id": [],
+    "/liquipedia/counterstrike/matches/:team": [
+        "CookiePieWw"
+    ],
+    "/liquipedia/dota2/matches/:id": [
+        "wzekin"
+    ],
     "/lit/jwc": [],
     "/lit/tw/:name?": [],
     "/lit/xwzx/:name?": [],

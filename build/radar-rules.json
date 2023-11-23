@@ -8186,6 +8186,14 @@
         "source": "/jobs/intern",
         "target": "/jobs/intern"
       }
+    ],
+    "book": [
+      {
+        "title": "读书论坛",
+        "docs": "https://docs.rsshub.app/routes/social-media#dou-ban",
+        "source": "/:id/discussion",
+        "target": "/:id/discussion"
+      }
     ]
   },
   "douyin.com": {
@@ -17029,6 +17037,28 @@
           "/novel/:id"
         ],
         "target": "/linovellib/novel/:id"
+      }
+    ]
+  },
+  "liquipedia.net": {
+    "_name": "Liquipedia",
+    ".": [
+      {
+        "title": "Counter Strike Match Results",
+        "docs": "https://docs.rsshub.app/routes/game#liquipedia",
+        "source": [
+          "/counterstrike/:id/Matches",
+          "/dota2/:id"
+        ],
+        "target": "/liquipedia/counterstrike/matches/:id"
+      },
+      {
+        "title": "Dota2 战队最近比赛结果",
+        "docs": "https://docs.rsshub.app/routes/game#liquipedia",
+        "source": [
+          "/dota2/:id"
+        ],
+        "target": "/liquipedia/dota2/matches/:id"
       }
     ]
   },
