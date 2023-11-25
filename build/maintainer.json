@@ -2738,6 +2738,9 @@
     "/google/album/:id": [
         "hoilc"
     ],
+    "/google/alerts/:keyword": [
+        "TonyRL"
+    ],
     "/google/citations/:id": [
         "KellyHwong"
     ],
@@ -5672,6 +5675,12 @@
     "/putonghua": [],
     "/putty/changes": [
         "nczitzk"
+    ],
+    "/qbitai/category/:category": [
+        "FuryMartin"
+    ],
+    "/qbitai/tag/:tag": [
+        "FuryMartin"
     ],
     "/qbittorrent/news": [
         "TonyRL"
