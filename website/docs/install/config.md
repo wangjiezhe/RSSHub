@@ -40,7 +40,7 @@ RSSHub supports two caching methods: memory and redis
 
 Partial routes have a strict anti-crawler policy, and can be configured to use proxy.
 
-Proxy can be configured through **Proxy URI**, **Proxy options**, or **Reverse proxy**.
+Proxy can be configured through **Proxy URI**, **Proxy options**, **PAC script**, or **Reverse proxy**.
 
 ### Proxy URI
 
@@ -95,6 +95,20 @@ async function handleRequest(request) {
   }
 }
 ```
+
+### PAC script
+
+:::warning
+
+This proxy method overwrites `PROXY_URI`, `PROXY_PROTOCOL`, `PROXY_HOST` and `PROXY_PORT`.
+
+:::
+
+About PAC script, please refer to [Proxy Auto-Configuration (PAC) file](https://developer.mozilla.org/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file).
+
+`PAC_URI`: PAC script URL, supports http, https, ftp, file, data. See [pac-proxy-agent](https://www.npmjs.com/package/pac-proxy-agent) NPM package page.
+
+`PAC_SCRIPT`: Hard-coded JavaScript code string of PAC script. Overwrites `PAC_URI`.
 
 ### Proxy options
 
@@ -235,7 +249,9 @@ Configs in this sections are in beta stage, and **are turn off by default**. Ple
 
 `OPENAI_PROMPT`: OpenAI prompt, used for using ChatGPT to summarize articles, see [OpenAI API reference](https://platform.openai.com/docs/api-reference/chat) for details
 
-## Route-specific Configurations
+`REMOTE_CONFIG`: Remote configuration URL, used for dynamically updating configurations. The address should return a JSON with an environment variable name as the key. It will be loaded and merged with local configurations when the application starts. In case of conflicts with local configurations, remote configurations will take precedence. But please note that some basic configuration items do not support remote retrieval.
+
+## Route-specific Configurations {#route-specific-configurations}
 
 :::tip
 
@@ -259,6 +275,11 @@ See docs of the specified route and `lib/config.js` for detailed information.
     2.  打开控制台，切换到 Network 面板，刷新
     3.  点击 dynamic_new 请求，找到 Cookie
     4.  视频和专栏，UP 主粉丝及关注只要求 `SESSDATA` 字段，动态需复制整段 Cookie
+-   `BILIBILI_DM_IMG_LIST`: 用于获取UP主投稿系列的路由，获取方式：
+    1.  打开 [任意UP主个人空间页](https://space.bilibili.com/1)
+    2.  打开控制台，切换到 Network 面板，关闭缓存，刷新，鼠标在窗口内不断移动
+    3.  使用过滤器找到符合 `https://api.bilibili.com/x/space/wbi/arc/search` 的请求
+    4.  复制请求参数中 `dm_img_list` 字段的内容，如 `[{"x":2721,"y":615,"z":0,"timestamp":29,"type":0}]`
 
 ### Bitbucket
 
@@ -294,9 +315,10 @@ See docs of the specified route and `lib/config.js` for detailed information.
 -   `DISCORD_AUTHORIZATION`: Discord authorization token, can be found in the header of XHR requests after logging in Discord web client
 
 ### Discourse
+
 -   `DISCOURSE_CONFIG_{id}`: `id` could be arbitrary number or string, while the value should be the format of `{"link":link,"key":key}`, where:
-    -   `link` is the link to the forum.
-    -   `key` is the access key for the forum API, which you can refer to [this snippet](https://pastebin.com/YbLCgdWW) to obtain one. Ensure that this key is granted sufficient permission.
+  -   `link` is the link to the forum.
+  -   `key` is the access key for the forum API, which you can refer to [this snippet](https://pastebin.com/YbLCgdWW) to obtain one. Ensure that this key is granted sufficient permission.
 
 ### Discuz cookie
 
@@ -361,11 +383,16 @@ Warning: Two Factor Authentication is **not** supported.
 
 -   `LASTFM_API_KEY`: Last.fm API Key
 
+
+### LightNovel.us
+
+-   `SECURITY_KEY`: security_key in the token，please remove %22，example `{%22security_key%22:%223cXXXX%22}`,only need 3cXXXX
+
 ### Email
 
 -   `EMAIL_CONFIG_{email}`: Mail setting, replace `{email}` with the email account, replace `@` and `.` in email account with `_`, e.g. `EMAIL_CONFIG_xxx_gmail_com`. The value is in the format of `password=password&host=server&port=port`, eg:
-    -   Linux env: `EMAIL_CONFIG_xxx_qq_com="password=123456&host=imap.qq.com&port=993"`
-    -   docker env: `EMAIL_CONFIG_xxx_qq_com=password=123456&host=imap.qq.com&port=993`, please do not include quotations `'`,`"`
+  -   Linux env: `EMAIL_CONFIG_xxx_qq_com="password=123456&host=imap.qq.com&port=993"`
+  -   docker env: `EMAIL_CONFIG_xxx_qq_com=password=123456&host=imap.qq.com&port=993`, please do not include quotations `'`,`"`
 
 -   Note: socks5h proxy is not supported due to the limit of email lib `ImapFlow`
 
@@ -449,8 +476,6 @@ For scientific journal routes
 -   `SPOTIFY_CLIENT_ID`: Client ID of the application
 -   `SPOTIFY_CLIENT_SECRET`: Client secret of the application
 
-### Spotify
-
 For user data related routes
 
 -   `SPOTIFY_REFRESHTOKEN`: The refresh token of the user from the Spotify application. Check [this gist](https://gist.github.com/outloudvi/d1bbeb5e989db5385384a223a7263744) for detailed information.
@@ -463,7 +488,11 @@ For user data related routes
 
 ### Twitter
 
-[Token generation](https://github.com/zedeus/nitter/wiki/Guest-Account-Branch-Deployment)
+Given the recent changes in Twitter and its API access a new method for accessing Twitter anonymously was devised. This method involves using temporary guest accounts created when going through the onboarding process with the Android app.
+
+Please see the details in [Nitter - Guest Account Branch Deployment](https://github.com/zedeus/nitter/wiki/Guest-Account-Branch-Deployment) and [zedeus/nitter#983](https://github.com/zedeus/nitter/issues/983).
+
+In addition, we have prepared a Node.js script to help you use proxies to create these tokens in batches. [Please click here](https://github.com/DIYgod/RSSHub/tree/master/scripts/twitter-token/generate.js).
 
 -   `TWITTER_OAUTH_TOKEN`: Support multiple keys, split them with `,`
 -   `TWITTER_OAUTH_TOKEN_SECRET`: Support multiple keys, split them with `,`
@@ -485,11 +514,11 @@ For user data related routes
 [API Key application](https://console.developers.google.com/)
 
 -   All routes:
-    -   `YOUTUBE_KEY`: YouTube API Key, support multiple keys, split them with `,`
+  -   `YOUTUBE_KEY`: YouTube API Key, support multiple keys, split them with `,`
 -   Extra requirements for subscriptions route:
-    -   `YOUTUBE_CLIENT_ID`: YouTube API OAuth 2.0 client ID
-    -   `YOUTUBE_CLIENT_SECRET`: YouTube API OAuth 2.0 client secret
-    -   `YOUTUBE_REFRESH_TOKEN`: YouTube API OAuth 2.0 refresh token. Check [this gist](https://gist.github.com/Kurukshetran/5904e8cb2361623498481f4a9a1338aa) for detailed instructions.
+  -   `YOUTUBE_CLIENT_ID`: YouTube API OAuth 2.0 client ID
+  -   `YOUTUBE_CLIENT_SECRET`: YouTube API OAuth 2.0 client secret
+  -   `YOUTUBE_REFRESH_TOKEN`: YouTube API OAuth 2.0 refresh token. Check [this gist](https://gist.github.com/Kurukshetran/5904e8cb2361623498481f4a9a1338aa) for detailed instructions.
 
 ### ZodGame
 
@@ -504,16 +533,6 @@ For user data related routes
     2.  打开控制台， 刷新
     3.  找到 `https://bbs.pku.edu.cn/v2/home.php` 请求
     4.  找到请求头中的 Cookie
-
-### 吹牛部落
-
-用于栏目
-
--   `CHUINIU_MEMBER`: 吹牛部落登录后的 x-member，获取方式
-    1.  登陆后点开文章正文
-    2.  打开控制台，刷新
-    3.  找到 `http://api.duanshu.com/h5/content/detail` 开头的请求
-    4.  找到请求头中的 x-member
 
 ### 滴答清单
 

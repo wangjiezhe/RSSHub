@@ -1,3 +1,5 @@
+import Link from "@docusaurus/Link";
+
 export default function InstanceList(): JSX.Element {
   const instances = [{
     url: 'https://rsshub.rssforever.com',
@@ -34,7 +36,28 @@ export default function InstanceList(): JSX.Element {
     location: '🇺🇸',
     maintainer: 'pseudoyu',
     maintainerUrl: 'https://www.pseudoyu.com',
-  }]
+  }, {
+    url: 'https://rsshub.friesport.ac.cn',
+    location: '🇺🇸',
+    maintainer: '思维悦动',
+    maintainerUrl: 'https://friesport.ac.cn',
+  }, {
+    url: 'https://rsshub.atgw.io',
+    location: '🇺🇸',
+    maintainer: 'limfoo',
+    maintainerUrl: 'https://blog.limfoo.io',
+  }, {
+    url: 'https://rsshub.rss.tips',
+    location: '🇺🇸',
+    maintainer: 'AboutRSS',
+    maintainerUrl: 'https://github.com/AboutRSS/ALL-about-RSS',
+  }, {
+    url: 'https://rsshub.mubibai.com',
+    location: '🇳🇱',
+    maintainer: 'Kai',
+    maintainerUrl: 'https://mubibai.com',
+  }
+]
 
   return (
     <table>
@@ -50,16 +73,16 @@ export default function InstanceList(): JSX.Element {
         {instances.map((instance) => (
           <tr key={instance.url}>
             <td>
-              <a href={instance.url}>{new URL(instance.url).host}</a>
+              <Link to={instance.url}>{new URL(instance.url).host}</Link>
             </td>
             <td>{instance.location}</td>
             <td>
               {instance.maintainer ? (
-                <a href={instance.maintainerUrl}>{instance.maintainer}</a>
+                <Link to={instance.maintainerUrl}>{instance.maintainer}</Link>
               ) : 'Anonymous'}
             </td>
             <td>
-              <img src={`https://img.shields.io/website.svg?label=&url=${instance.url}/test/cache`} />
+              <img loading="lazy" src={`https://img.shields.io/website.svg?label=&url=${encodeURIComponent(`${instance.url}/test/cache`)}`} />
             </td>
           </tr>
         ))}
